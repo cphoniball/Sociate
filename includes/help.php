@@ -1,0 +1,1 @@
+<p>The SMB Social Plugin is a comprehensive social media solution.</p>
