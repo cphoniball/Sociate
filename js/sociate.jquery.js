@@ -335,38 +335,38 @@ var SociateButtons = SociateButtons || function(url, postid, $sociate, options) 
 		}
 	}
 
-	var _init = (function(scope) {
+	var _init = function() {
 		// set buttons to open in another window
-		if (scope.targetBlank) {
-			scope.$buttons.each(function(i, e) {
+		if (this.targetBlank) {
+			this.$buttons.each(function(i, e) {
 				$(this).attr('target', '_blank');
 			});
 		}
 
 		// for development purposes, so URLs update and retrieve real counts
-		if (scope.url.substring(0, 35) === 'http://localhost:8888/smallbusiness') {
-			scope.url = 'http://smallbusiness.com' + scope.url.substring(35);
-		} else if (scope.url.substring(0, 28) === 'http://dev.smallbusiness.com') {
-			scope.url = 'http://smallbusiness.com' + scope.url.substring(28);
+		if (this.url.substring(0, 35) === 'http://localhost:8888/smallbusiness') {
+			this.url = 'http://smallbusiness.com' + this.url.substring(35);
+		} else if (this.url.substring(0, 28) === 'http://dev.smallbusiness.com') {
+			this.url = 'http://smallbusiness.com' + this.url.substring(28);
 		}
 
 		// Set URLs on each of the buttons to the proper share endpoint
-		scope.$buttons.each(function(i, e) {
+		this.$buttons.each(function(i, e) {
 			var site = $(this).data('site');
-			var shareUrl = scope.generateShareUrl(site, scope);
+			var shareUrl = this.generateShareUrl(site, this);
 			$(this).attr('href', shareUrl);
 		});
 
 		// Update counts from sharedcount
-		scope.checkSocialCount();
+		this.checkSocialCount();
 
 		// add counts if options set to
-		if (scope.insertCounts) {
-			scope.insertSocialCounts(data);
+		if (this.insertCounts) {
+			this.insertSocialCounts(data);
 		}
 
-		scope.$buttons.attr('data-initialized', 'true');
-	})(this);
+		this.$buttons.attr('data-initialized', 'true');
+	})().bind(this);
 };
 
 SociateButtons.prototype = new Sociate();
