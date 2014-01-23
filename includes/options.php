@@ -14,6 +14,7 @@
 				settings_fields( 'sociate_options' );
 				do_settings_sections( 'sociate_accounts' );
 				do_settings_sections( 'sociate_services' );
+				do_settings_sections( 'sociate_trending' );
 				submit_button();
 			?>
 		</form>

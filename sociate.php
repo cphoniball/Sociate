@@ -54,11 +54,12 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
 
             // Register menu and options
             add_action( 'admin_menu', array( $this, 'create_sociate_menu' ) );
+            add_action( 'admin_menu', array( $this, 'create_sociate_graphs' ) );
             add_action( 'admin_menu', array( $this, 'create_sociate_options' ) );
         }
 
         public static function activate() {
-
+            self::create_sociate_table();
         }
 
         public static function deactivate() {
@@ -90,7 +91,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
         }
 
         /**************************
-        * CRUD operations
+        * CRUD operations for post metadata
         **************************/
 
         // Retrieves individual social meta fields and either returns as an array, or echoes if is an Ajax call
@@ -154,6 +155,8 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             update_post_meta( $postid, 'sociate-updated', time() );
             update_post_meta( $postid, 'sociate-trending', $social_data['trending'] );
 
+            $this->table_insert_data( $postid, $social_data );
+
             return $social_data;
         }
 
@@ -191,8 +194,88 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
         }
 
         /**************************
-        * Trending posts functionality
+        * Database table creation and deletion
         **************************/
+
+        // Create sociate table
+        function create_sociate_table() {
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'sociate';
+
+            $sql = "CREATE TABLE $table_name (
+                id bigint(40) PRIMARY KEY  NOT NULL AUTO_INCREMENT,
+                postid bigint(20) NOT NULL,
+                time timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                total bigint(20) DEFAULT 0 NOT NULL,
+                facebook bigint(20) DEFAULT 0 NOT NULL,
+                twitter bigint(20) DEFAULT 0 NOT NULL,
+                pinterest bigint(20) DEFAULT 0 NOT NULL,
+                linkedin bigint(20) DEFAULT 0 NOT NULL,
+                googleplus bigint(20) DEFAULT 0 NOT NULL
+            );";
+
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            dbDelta( $sql );
+        }
+
+
+        /**************************
+        * CRUD operations for database table
+        * All functions can be called via Ajax or via the server
+        **************************/
+
+        // Add a new row to the  wp_sociate table. This runs whenever new post metadata is saved
+        function table_insert_data( $postid, $social_data ) {
+            global $wpdb;
+
+            $wpdb->insert( $wpdb->prefix . 'sociate',
+                array(
+                    'postid' => $postid,
+                    'total' => $social_data['total'],
+                    'facebook' => $social_data['facebook'],
+                    'twitter' => $social_data['twitter'],
+                    'linkedin' => $social_data['linkedin'],
+                    'pinterest' => $social_data['pinterest'],
+                    'googleplus' => $social_data['google-plus']
+                )
+            );
+        }
+
+        function table_get_data( $postid ) {
+            global $wpdb;
+
+
+        }
+
+        function table_get_post_data( $postid ) {
+
+        }
+
+
+        function table_delete_data() {
+
+        }
+
+        function table_get_total_shares() {
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'sociate';
+
+            $totals = $wpdb->get_col( $wpdb->prepare("
+                SELECT      total
+                FROM        $table_name
+                ORDER BY    time
+            ") );
+
+            return $totals;
+        }
+
+        // get shares for an individual network over time
+        function table_get_network_shares() {
+
+        }
+
+
+
 
         /**************************
         * Setting up admin options
@@ -225,6 +308,10 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             $options = add_submenu_page( 'soc-menu', 'Sociate Settings', 'Sociate Settings', 'manage_options', 'sociate-settings', array( $this, 'render_sociate_options' ) );
         }
 
+        function create_sociate_graphs() {
+            $graphs = add_submenu_page( 'soc-menu', 'Sociate Graphs', 'Sociate Graphs', 'manage_options', 'sociate-graphs', array( $this, 'render_sociate_graphs' ) );
+        }
+
         // echo content for social menu
         function render_sociate_menu() {
             include( sprintf( "%s/includes/menu.php", dirname(__FILE__) ) );
@@ -232,6 +319,10 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
 
         function render_sociate_options() {
             include( sprintf( "%s/includes/options.php", dirname(__FILE__) ) );
+        }
+
+        function render_sociate_graphs() {
+            include( sprintf( "%s/includes/graphs.php", dirname(__FILE__) ) );
         }
 
         function create_help_menu() {
@@ -329,6 +420,24 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
                 'sociate_services'
             );
 
+            // Trending score options
+
+            add_settings_section(
+                'sociate_trending',
+                'Trending score options',
+                array( $this, 'print_sociate_trending' ),
+                'sociate_trending',
+                'sociate_trending'
+            );
+
+
+            add_settings_field(
+                'trending_timeframe',
+                'Trending score timeframe (in hours)',
+                array( $this, 'print_trending_timeframe'),
+                'sociate_trending',
+                'sociate_trending'
+            );
         }
 
         function sanitize_sociate_options( $input ) {
@@ -379,7 +488,15 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             echo '<input type="checkbox" id="use_google_plus" value="checked" name="sociate_options[use_google_plus]" ' . $this->get_sociate_option('use_google_plus') . '>';
         }
 
+        function print_sociate_trending() {
+            echo '<p>Sociate uses the total number of shares in a given time period to calculate the trending score for posts. Since sites vary widely in popularity and number of shares on a given post,
+            you\'re able to set the time period to best suit your site. I typically recommend that users set this to seven days, but feel free to experiment to see which value works best for your blog.
+            If you\'d like to rank with no time limit, set this option to 0.</p>';
+        }
 
+        function print_trending_timeframe() {
+            echo '<input type="text" id="trending_timeframe" name="sociate_options[trending_timeframe]" value="' . $this->get_sociate_option( 'trending_timeframe' ) . '" /> ';
+        }
 
 
     } // end class SOC_Sociate

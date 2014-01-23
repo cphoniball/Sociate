@@ -366,7 +366,8 @@ var SociateButtons = SociateButtons || function(url, postid, $sociate, options) 
 		}
 
 		this.$buttons.attr('data-initialized', 'true');
-	})().bind(this);
+	}().bind(this);
+
 };
 
 SociateButtons.prototype = new Sociate();
