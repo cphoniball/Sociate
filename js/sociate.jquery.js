@@ -335,7 +335,7 @@ var SociateButtons = SociateButtons || function(url, postid, $sociate, options) 
 		}
 	}
 
-	var _init = function() {
+	var init = function() {
 		// set buttons to open in another window
 		if (this.targetBlank) {
 			this.$buttons.each(function(i, e) {
@@ -343,19 +343,22 @@ var SociateButtons = SociateButtons || function(url, postid, $sociate, options) 
 			});
 		}
 
-		// for development purposes, so URLs update and retrieve real counts
-		if (this.url.substring(0, 35) === 'http://localhost:8888/smallbusiness') {
-			this.url = 'http://smallbusiness.com' + this.url.substring(35);
-		} else if (this.url.substring(0, 28) === 'http://dev.smallbusiness.com') {
-			this.url = 'http://smallbusiness.com' + this.url.substring(28);
+		if (typeof this.url !== 'undefined') {
+			// for development purposes, so URLs update and retrieve real counts
+			if (this.url.substring(0, 35) === 'http://localhost:8888/smallbusiness') {
+				this.url = 'http://smallbusiness.com' + this.url.substring(35);
+			} else if (this.url.substring(0, 28) === 'http://dev.smallbusiness.com') {
+				this.url = 'http://smallbusiness.com' + this.url.substring(28);
+			}
 		}
+
 
 		// Set URLs on each of the buttons to the proper share endpoint
 		this.$buttons.each(function(i, e) {
-			var site = $(this).data('site');
-			var shareUrl = this.generateShareUrl(site, this);
-			$(this).attr('href', shareUrl);
-		});
+			var site = $(e).data('site');
+			var shareUrl = this.generateShareUrl(site);
+			$(e).attr('href', shareUrl);
+		}.bind(this));
 
 		// Update counts from sharedcount
 		this.checkSocialCount();
@@ -366,7 +369,9 @@ var SociateButtons = SociateButtons || function(url, postid, $sociate, options) 
 		}
 
 		this.$buttons.attr('data-initialized', 'true');
-	}().bind(this);
+	}.bind(this);
+
+	init();
 
 };
 
