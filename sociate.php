@@ -52,6 +52,10 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             add_action('wp_ajax_get_all_posts', array( $this, 'get_all_posts' ) );
             add_action('wp_ajax_nopriv_get_all_posts', array( $this, 'get_all_posts' ) );
 
+            // get all posts - returns array of objects with props postid and posturl
+            add_action('wp_ajax_table_get_post_data', array( $this, 'table_get_post_data' ) );
+            add_action('wp_ajax_nopriv_table_get_post_data', array( $this, 'table_get_post_data' ) );
+
             // Register menu and options
             add_action( 'admin_menu', array( $this, 'create_sociate_menu' ) );
             add_action( 'admin_menu', array( $this, 'create_sociate_graphs' ) );
@@ -82,10 +86,17 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             wp_register_script( 'sociate', plugins_url( '/js/sociate.jquery.js', __FILE__ ), array( 'sociate_jquery' ) );
             wp_register_script( 'sociate_admin', plugins_url( '/js/sociate-admin.jquery.js', __FILE__ ), array( 'sociate' ) );
 
+            wp_register_script( 'google_jsapi', 'https://www.google.com/jsapi');
+
+            wp_register_script( 'sociate_charts', plugins_url( '/js/sociate-charts.jquery.js', __FILE__), array( 'sociate', 'sociate_jquery', 'sociate_admin', 'google_jsapi' ) );
 
             wp_enqueue_script( 'sociate' );
             wp_enqueue_script( 'sociate_admin' );
+            wp_enqueue_script( 'sociate_charts' );
             wp_localize_script('sociate', 'Sociate_Ajax', array(
+                'ajaxUrl' => admin_url( 'admin-ajax.php' )
+            ));
+            wp_localize_script('sociate_charts', 'Sociate_Ajax', array(
                 'ajaxUrl' => admin_url( 'admin-ajax.php' )
             ));
         }
@@ -247,8 +258,25 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
 
         }
 
+        // get data over time for an individual post
         function table_get_post_data( $postid ) {
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'sociate';
 
+            if ( isset( $_POST['postid'] ) ) { $postid = $_POST['postid']; }
+
+            $results = $wpdb->get_results("
+                SELECT      *
+                FROM        $table_name
+                WHERE       postid = $postid
+            ");
+
+            if ( $_POST['action'] === 'table_get_post_data' ) {
+                echo json_encode($results);
+                die();
+            } else {
+                return $results;
+            }
         }
 
 
@@ -519,6 +547,11 @@ if ( class_exists( 'SOC_Sociate') ) {
     function SOC_get_social_data( $postid ) {
         global $soc_sociate;
         return $soc_sociate->get_social( $postid );
+    }
+
+    function SOC_get_table_post_data( $postid ) {
+        global $soc_sociate;
+        return $soc_sociate->table_get_post_data( $postid );
     }
 
 }
