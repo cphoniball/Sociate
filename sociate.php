@@ -73,7 +73,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
         public function load_client_scripts() {
             wp_enqueue_script( 'sociate', plugins_url( '/js/sociate.jquery.js', __FILE__ ), array( 'jquery' ) );
             wp_localize_script('sociate', 'Sociate_Ajax', array(
-                'ajaxUrl' => admin_url( 'admin-ajax.php' )
+                'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
             ));
 
             wp_enqueue_style( 'smb_social_buttons', plugins_url( '/css/sociate.css', __FILE__ ) );
