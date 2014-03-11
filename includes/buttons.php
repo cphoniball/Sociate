@@ -7,7 +7,7 @@
 	data-postid="<?php the_ID(); ?>"
 	data-summary="<?php the_excerpt(); ?>"
 	data-twitteraccount="<?php echo $sociate_options['twitter_account']; ?>"
-	data-imageurl="<?php echo wp_get_attachment_url( get_post_thumbnail_id($post->ID) ); ?>"
+	data-imageurl="<?php echo wp_get_attachment_url( get_post_thumbnail_id( the_ID() ) ); ?>"
 	data-getcount="true"
 	data-initialized="false"
  	>

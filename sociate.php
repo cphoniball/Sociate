@@ -94,10 +94,10 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             wp_enqueue_script( 'sociate_admin' );
             wp_enqueue_script( 'sociate_charts' );
             wp_localize_script('sociate', 'Sociate_Ajax', array(
-                'ajaxUrl' => admin_url( 'admin-ajax.php' )
+                'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
             ));
             wp_localize_script('sociate_charts', 'Sociate_Ajax', array(
-                'ajaxUrl' => admin_url( 'admin-ajax.php' )
+                'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
             ));
         }
 
@@ -106,7 +106,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
         **************************/
 
         // Retrieves individual social meta fields and either returns as an array, or echoes if is an Ajax call
-        public function get_social( $postid = false ) {
+        public static function get_social( $postid = false ) {
             if ( ! $postid ) { $postid = $_POST['postid']; }
 
             $social['facebook'] = get_post_meta( $postid, 'sociate-facebook', true );
@@ -119,7 +119,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             $social['trending'] = get_post_meta( $postid, 'sociate-trending', true );
 
             // if is ajax
-            if( $_POST['action'] === 'get_social' ) {
+            if( isset($_POST['action']) && $_POST['action'] === 'get_social' ) {
                 echo json_encode($social);
                 die();
             } else { // non ajax
