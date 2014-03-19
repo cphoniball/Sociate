@@ -71,12 +71,17 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
         }
 
         public function load_client_scripts() {
-            wp_enqueue_script( 'sociate', plugins_url( '/js/sociate.jquery.js', __FILE__ ), array( 'jquery' ) );
+            if ( defined( 'SMB_ENV' ) && SMB_ENV === 'development' ) {
+                $min = '';
+            } else {
+               $min = '.min'; 
+            }   
+            wp_enqueue_script( 'sociate', plugins_url( '/js/sociate.jquery' . $min . '.js', __FILE__ ), array( 'jquery' ), false, true );
             wp_localize_script('sociate', 'Sociate_Ajax', array(
                 'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
             ));
 
-            wp_enqueue_style( 'smb_social_buttons', plugins_url( '/css/sociate.css', __FILE__ ) );
+            wp_enqueue_style( 'smb_social_buttons', plugins_url( '/css/sociate' . $min . '.css', __FILE__ ) );
         }
 
         public function load_admin_scripts() {
