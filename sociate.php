@@ -76,7 +76,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             } else {
                $min = '.min'; 
             }   
-            wp_enqueue_script( 'sociate', plugins_url( '/js/sociate.jquery' . $min . '.js', __FILE__ ), array( 'jquery' ), false, true );
+            wp_enqueue_script( 'sociate', plugins_url( '/js/sociate.jquery' . $min . '.js', __FILE__ ), array( 'jquery' ) );
             wp_localize_script('sociate', 'Sociate_Ajax', array(
                 'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
             ));
@@ -544,8 +544,11 @@ if ( class_exists( 'SOC_Sociate') ) {
 
     $soc_sociate = new SOC_Sociate();
 
-    // Echos social buttons
-    function SOC_echo_social_buttons() {
+    // Echos social buttons, where $buttons = an array with keys facebook, twitter, linkedin, pinterest, google-plus
+    function SOC_echo_social_buttons( ) {
+        
+
+
         include( sprintf( "%s/includes/buttons.php", dirname(__FILE__) ) );
     }
 

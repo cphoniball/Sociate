@@ -24,7 +24,9 @@
             		<?php endif; ?>
             	</a>
             </li>
-        <?php endif; if ($sociate_options['use_twitter'] == 'checked') : ?>
+        <?php endif; ?> 
+
+        <?php if ($sociate_options['use_twitter'] == 'checked') : ?>
             <li>
             	<a data-site="twitter" class="sociate-button <?php the_ID(); ?> sociate-twitter">
             		<i class="icon-lg icon-twitter"></i>
@@ -33,7 +35,9 @@
             		<?php endif; ?>
             	</a>
             </li>
-        <?php endif; if ($sociate_options['use_google_plus'] == 'checked') : ?>
+        <?php endif; ?> 
+
+        <?php if ($sociate_options['use_google_plus'] == 'checked') : ?>
             <li>
             	<a data-site="google-plus" class="sociate-button <?php the_ID(); ?> sociate-google-plus">
             		<i class="icon-lg icon-google-plus"></i>
@@ -42,7 +46,9 @@
             		<?php endif; ?>
             	</a>
             </li>
-        <?php endif; if ($sociate_options['use_linkedin'] == 'checked') : ?>
+        <?php endif; ?> 
+
+        <?php if ($sociate_options['use_linkedin'] == 'checked') : ?>
             <li>
             	<a data-site="linkedin" class="sociate-button <?php the_ID(); ?> sociate-linkedin">
             		<i class="icon-lg icon-linkedin"></i>
@@ -51,7 +57,7 @@
             		<?php endif; ?>
             	</a>
             </li>
-        <?php endif; if ($sociate_options['use_pinterest'] == 'checked') : ?>
+        <?php endif; ?> <?php if ($sociate_options['use_pinterest'] == 'checked') : ?>
             <li>
             	<a data-site="pinterest" class="sociate-button <?php the_ID(); ?> sociate-pinterest">
             		<i class="icon-lg icon-pinterest"></i>
