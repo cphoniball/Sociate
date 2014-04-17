@@ -145,13 +145,12 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             // add the total to the array
             $social_data['total'] = $social_data['pinterest'] + $social_data['google-plus'] + $social_data['linkedin'] + $social_data['twitter'] + $social_data['facebook'];
             // add trending score
-            $social_data['trending'] = $this->update_trending( $postid, $social_data );
+            //$social_data['trending'] = $this->update_trending( $postid, $social_data );
 
             /* if is ajax */
             if( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
                 $this->save_social( $_POST['postid'], $social_data );
-                echo json_encode($social_data);
-                die();
+                die( json_encode( $social_data ) );
             } else { // non ajax
                 $this->save_social( $postid, $social_data );
                 return $social_data;
@@ -169,7 +168,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             update_post_meta( $postid, 'sociate-linkedin', $social_data['linkedin'] );
             update_post_meta( $postid, 'sociate-total', $social_data['total'] );
             update_post_meta( $postid, 'sociate-updated', time() );
-            update_post_meta( $postid, 'sociate-trending', $social_data['trending'] );
+            // update_post_meta( $postid, 'sociate-trending', $social_data['trending'] );
 
             $this->table_insert_data( $postid, $social_data );
 
