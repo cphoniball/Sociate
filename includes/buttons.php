@@ -2,7 +2,7 @@
 
  <div class="sociate-buttons clearfix cf"
  	data-postid="<?php the_ID(); ?>"
- 	data-url="<?php echo wp_get_shortlink(); ?>"
+ 	data-url="<?php the_permalink(); ?>"
 	data-title="<?php the_title(); ?>"
 	data-postid="<?php the_ID(); ?>"
 	data-summary="<?php echo strip_tags( get_the_excerpt() ); ?>"
