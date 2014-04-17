@@ -546,9 +546,6 @@ if ( class_exists( 'SOC_Sociate') ) {
 
     // Echos social buttons, where $buttons = an array with keys facebook, twitter, linkedin, pinterest, google-plus
     function SOC_echo_social_buttons( ) {
-        
-
-
         include( sprintf( "%s/includes/buttons.php", dirname(__FILE__) ) );
     }
 

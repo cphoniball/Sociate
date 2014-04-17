@@ -2,12 +2,12 @@
 
  <div class="sociate-buttons clearfix cf"
  	data-postid="<?php the_ID(); ?>"
- 	data-url="<?php the_permalink(); ?>"
+ 	data-url="<?php echo wp_get_shortlink(); ?>"
 	data-title="<?php the_title(); ?>"
 	data-postid="<?php the_ID(); ?>"
-	data-summary="<?php the_excerpt(); ?>"
+	data-summary="<?php echo strip_tags( get_the_excerpt() ); ?>"
 	data-twitteraccount="<?php echo $sociate_options['twitter_account']; ?>"
-	data-imageurl="<?php echo wp_get_attachment_url( get_post_thumbnail_id( the_ID() ) ); ?>"
+	data-imageurl="<?php echo wp_get_attachment_url( get_post_thumbnail_id( get_the_ID() ) ); ?>"
 	data-getcount="true"
 	data-initialized="false"
  	>

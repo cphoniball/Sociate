@@ -229,12 +229,13 @@ var SociateButtons = SociateButtons || function(url, postid, $sociate, options) 
 	this.$post = $('#post-' + this.postid);
 
 	// if a featured photo has been set, use that as the image - otherwise get the first image in the post
-	this.imageUrl = function() {
+	this.imageUrl = (function() {
+		console.log($sociate.data('imageurl')); 
 		if ($sociate.data('imageurl')) { return $sociate.data('imageurl'); }
 		else {
 			return $post.find('[class^="wp-image"]').first().attr('href');
 		}
-	};
+	})();
 
 	// overwrite settings with custom options if needed
 	$.extend(this, options);
