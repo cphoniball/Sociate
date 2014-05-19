@@ -76,7 +76,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             } else {
                $min = '.min'; 
             }   
-            wp_enqueue_script( 'sociate', plugins_url( '/js/sociate.jquery' . $min . '.js', __FILE__ ), array( 'jquery' ) );
+            wp_enqueue_script( 'sociate', plugins_url( '/js/sociate.jquery' . $min . '.js', __FILE__ ), array( 'jquery' ), false, true );
             wp_localize_script('sociate', 'Sociate_Ajax', array(
                 'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
             ));

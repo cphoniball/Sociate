@@ -376,7 +376,10 @@ var SociateButtons = SociateButtons || function(url, postid, $sociate, options) 
 
 };
 
-SociateButtons.prototype = new Sociate();
+$(document).ready(function() {
+	SociateButtons.prototype = new Sociate();	
+}); 
+
 
 // Custom event 'sociateButtons is fired whenever the buttons are included in the page - this will prevent the plugin from initializing below IE9'
 document.addEventListener('sociateButtons', function() {
