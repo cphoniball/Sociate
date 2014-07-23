@@ -3,7 +3,7 @@
 // Handles API calls and data manipulation
 var Sociate = Sociate || function(url, postid) {
 
-	// for development purposes
+	// for development purposes, rewrites URL to that of live site
 	function devUrl(url) {
 		if (typeof url === 'string') {
 			if (url.substring(0, 35) === 'http://localhost:8888/smallbusiness') {
@@ -32,24 +32,47 @@ var Sociate = Sociate || function(url, postid) {
 		if (typeof customUrl === 'string') { var url = customUrl; }
 		else { var url = this.url; }
 
-		url = encodeURIComponent(devUrl(url) || location.href);
+		// begin sharedcount jquery plugin
+		var domain = "//free.sharedcount.com/"; /* SET DOMAIN */
+    var apikey = "9ef2fa799694361a5e98395b145714ccb80f6a5a"; /*API KEY HERE*/
+    var arg = {
+	    data: {
+	    	url : url,
+	    	apikey : apikey
+	    },
+        url: domain,
+        cache: true,
+        dataType: "json"
+    };
+    if ('withCredentials' in new XMLHttpRequest) {
+        arg.success = fn;
+    }
+    else {
+        var cb = "sc_" + url.replace(/\W/g, '');
+        window[cb] = fn;
+        arg.jsonpCallback = cb;
+        arg.dataType += "p";
+    }
+    return jQuery.ajax(arg);
 
-		var arg = {
-			url: "//" + (location.protocol == "https:" ? "sharedcount.appspot" : "api.sharedcount") + ".com/?url=" + url,
-			cache: true,
-			dataType: "json"
-		};
+		// url = encodeURIComponent(devUrl(url) || location.href);
 
-		if ('withCredentials' in new XMLHttpRequest) {
-			arg.success = fn;
-		} else {
-			var cb = "sc_" + url.replace(/\W/g, '');
-			window[cb] = fn;
-			arg.jsonpCallback = cb;
-			arg.dataType += "p";
-		}
+		// var arg = {
+		// 	url: "//" + (location.protocol == "https:" ? "sharedcount.appspot" : "api.sharedcount") + ".com/?url=" + url,
+		// 	cache: true,
+		// 	dataType: "json"
+		// };
 
-		return $.ajax(arg);
+		// if ('withCredentials' in new XMLHttpRequest) {
+		// 	arg.success = fn;
+		// } else {
+		// 	var cb = "sc_" + url.replace(/\W/g, '');
+		// 	window[cb] = fn;
+		// 	arg.jsonpCallback = cb;
+		// 	arg.dataType += "p";
+		// }
+
+		// return $.ajax(arg);
 	};
 
 
