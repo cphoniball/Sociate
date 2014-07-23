@@ -171,7 +171,6 @@ var Sociate = Sociate || function(url, postid) {
 		if (typeof postid !== 'undefined') { data.postid = postid; }
 		return $.ajax({
 			url: this.internalEndpoint,
-			headers: {'X-Requested-With': 'XMLHttpRequest'},
 			dataType: 'json',
 			method: 'POST',
 			action: 'update_social',

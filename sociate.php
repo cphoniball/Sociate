@@ -148,7 +148,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             //$social_data['trending'] = $this->update_trending( $postid, $social_data );
 
             /* if is ajax */
-            if( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
+            if ( isset( $_POST[ 'action' ] ) ) { // is ajax request
                 $this->save_social( $_POST['postid'], $social_data );
                 die( json_encode( $social_data ) );
             } else { // non ajax
