@@ -6,8 +6,8 @@ var Sociate = Sociate || function(url, postid) {
 	// for development purposes, rewrites URL to that of live site
 	function devUrl(url) {
 		if (typeof url === 'string') {
-			if (url.substring(0, 35) === 'http://localhost:8888/smallbusiness') {
-				url = 'http://smallbusiness.com' + url.substring(35);
+			if (url.substring(0, 24) === 'http://smallbusiness.dev') {
+				url = 'http://smallbusiness.com' + url.substring(24);
 			} else if (url.substring(0, 28) === 'http://dev.smallbusiness.com') {
 				url = 'http://smallbusiness.com' + url.substring(28);
 			}
@@ -171,6 +171,7 @@ var Sociate = Sociate || function(url, postid) {
 		if (typeof postid !== 'undefined') { data.postid = postid; }
 		return $.ajax({
 			url: this.internalEndpoint,
+			headers: {'X-Requested-With': 'XMLHttpRequest'},
 			dataType: 'json',
 			method: 'POST',
 			action: 'update_social',
