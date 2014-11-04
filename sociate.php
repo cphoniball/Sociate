@@ -85,25 +85,25 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
         }
 
         public function load_admin_scripts() {
-            // bootstrap, table css only
-            wp_enqueue_style( 'bootstrap_tables', plugins_url( '/css/sociate-admin.css', __FILE__ ) );
-            wp_register_script( 'sociate_jquery', plugins_url( '/packages/jquery/jquery.min.js', __FILE__) );
-            wp_register_script( 'sociate', plugins_url( '/js/sociate.jquery.js', __FILE__ ), array( 'sociate_jquery' ) );
-            wp_register_script( 'sociate_admin', plugins_url( '/js/sociate-admin.jquery.js', __FILE__ ), array( 'sociate' ) );
+            // bootstrap, table css onlys
+            if ( isset( $_GET['page'] ) ) { $page = $_GET['page']; } 
+            else $page = false; 
 
-            wp_register_script( 'google_jsapi', 'https://www.google.com/jsapi');
+            $sociate_pages = [ 'sociate-settings', 'soc-menu', 'sociate-graphs' ];
 
-            wp_register_script( 'sociate_charts', plugins_url( '/js/sociate-charts.jquery.js', __FILE__), array( 'sociate', 'sociate_jquery', 'sociate_admin', 'google_jsapi' ) );
+            if ( $page && in_array( $page, $sociate_pages ) ) {
+                wp_enqueue_style( 'bootstrap_tables', plugins_url( '/css/sociate-admin.css', __FILE__ ) );
 
-            wp_enqueue_script( 'sociate' );
-            wp_enqueue_script( 'sociate_admin' );
-            wp_enqueue_script( 'sociate_charts' );
-            wp_localize_script('sociate', 'Sociate_Ajax', array(
-                'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
-            ));
-            wp_localize_script('sociate_charts', 'Sociate_Ajax', array(
-                'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
-            ));
+                wp_register_script( 'sociate_jquery', plugins_url( '/packages/jquery/jquery.min.js', __FILE__) );
+                wp_register_script( 'sociate', plugins_url( '/js/sociate.jquery.js', __FILE__ ), array( 'sociate_jquery' ) );
+                wp_register_script( 'sociate_admin', plugins_url( '/js/sociate-admin.jquery.js', __FILE__ ), array( 'sociate' ) );
+
+                wp_enqueue_script( 'sociate' ); // THIS IS THE PROBLEM SCRIPT 
+                wp_enqueue_script( 'sociate_admin' );
+                wp_localize_script('sociate', 'Sociate_Ajax', array(
+                    'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
+                ));
+            }
         }
 
         /**************************
