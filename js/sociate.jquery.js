@@ -54,25 +54,6 @@ var Sociate = Sociate || function(url, postid) {
         arg.dataType += "p";
     }
     return jQuery.ajax(arg);
-
-		// url = encodeURIComponent(devUrl(url) || location.href);
-
-		// var arg = {
-		// 	url: "//" + (location.protocol == "https:" ? "sharedcount.appspot" : "api.sharedcount") + ".com/?url=" + url,
-		// 	cache: true,
-		// 	dataType: "json"
-		// };
-
-		// if ('withCredentials' in new XMLHttpRequest) {
-		// 	arg.success = fn;
-		// } else {
-		// 	var cb = "sc_" + url.replace(/\W/g, '');
-		// 	window[cb] = fn;
-		// 	arg.jsonpCallback = cb;
-		// 	arg.dataType += "p";
-		// }
-
-		// return $.ajax(arg);
 	};
 
 
@@ -399,10 +380,7 @@ var SociateButtons = SociateButtons || function(url, postid, $sociate, options) 
 
 };
 
-$(document).ready(function() {
-	SociateButtons.prototype = new Sociate();	
-}); 
-
+SociateButtons.prototype = new Sociate();	
 
 // Custom event 'sociateButtons is fired whenever the buttons are included in the page - this will prevent the plugin from initializing below IE9'
 document.addEventListener('sociateButtons', function() {

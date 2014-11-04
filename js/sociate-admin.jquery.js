@@ -1,4 +1,4 @@
-$(document).ready(function() {
+(function($) {
 
 	// admin functionality here
 	if ($('.sociate-menu-wrap').length) {
@@ -63,6 +63,6 @@ $(document).ready(function() {
 				});
 			});
 		});
-
 	}
-});
+
+})(jQuery); 
