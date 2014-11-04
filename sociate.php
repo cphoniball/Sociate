@@ -78,7 +78,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             }   
             wp_enqueue_script( 'sociate', plugins_url( '/js/sociate.jquery' . $min . '.js', __FILE__ ), array( 'jquery' ), false, true );
             wp_localize_script('sociate', 'Sociate_Ajax', array(
-                'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
+                'ajaxUrl' => admin_url( 'admin-ajax.php', 'https' )
             ));
 
             wp_enqueue_style( 'smb_social_buttons', plugins_url( '/css/sociate' . $min . '.css', __FILE__ ) );
@@ -101,7 +101,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
                 wp_enqueue_script( 'sociate' ); // THIS IS THE PROBLEM SCRIPT 
                 wp_enqueue_script( 'sociate_admin' );
                 wp_localize_script('sociate', 'Sociate_Ajax', array(
-                    'ajaxUrl' => admin_url( 'admin-ajax.php', 'http' )
+                    'ajaxUrl' => admin_url( 'admin-ajax.php', 'https' )
                 ));
             }
         }
