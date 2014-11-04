@@ -89,7 +89,7 @@ if ( ! class_exists( 'SOC_Sociate' ) ) {
             if ( isset( $_GET['page'] ) ) { $page = $_GET['page']; } 
             else $page = false; 
 
-            $sociate_pages = [ 'sociate-settings', 'soc-menu', 'sociate-graphs' ];
+            $sociate_pages = array( 'sociate-settings', 'soc-menu', 'sociate-graphs' );
 
             if ( $page && in_array( $page, $sociate_pages ) ) {
                 wp_enqueue_style( 'bootstrap_tables', plugins_url( '/css/sociate-admin.css', __FILE__ ) );
