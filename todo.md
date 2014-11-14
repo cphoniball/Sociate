@@ -1,5 +1,9 @@
-[ ] Register options on the settings page, including Twitter Account
-[x] Rewrite the JS initiation to only call sharedcount.com when updates haven't been made in more than 15 minutes
-[ ] Rewrite the JS API calls to go directly to each of the social services, bypassing sharedcount.com
-[ ] Add options to enable/disable different social services
-[ ] Add new table to the WordPress database that stores data over time for each post
+##Development tasks 11/7/2014
+
+- Remove dependence on sharedcount.com
+- Separate out PHP code into classes
+* Separate out JS code into modules 
+- Create settings for the various title, image, and description options in the admin panel 
+
+- Create tests for client side code
+- Create tests for server side code 
